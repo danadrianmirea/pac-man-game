@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+raylib
+.vscode
+.DS_STORE
