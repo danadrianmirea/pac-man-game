@@ -27,7 +27,8 @@ int main(void)
 	{
 		BeginDrawing();
 
-		run_game(map, key, pacman, cpu1, cpu2, cpu3, cpu4);
+		if (!run_game(map, key, pacman, cpu1, cpu2, cpu3, cpu4))
+			break ;
 
 		EndDrawing();
 	}

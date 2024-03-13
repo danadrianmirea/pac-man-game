@@ -33,6 +33,10 @@ Map::Map(std::string map_path)
 		file.close();
 	}
 
+	_lifes.insert(std::pair<int, int>(20  + BLOCK_SIZE / 2, 504 + BLOCK_SIZE / 2));
+	_lifes.insert(std::pair<int, int>(50  + BLOCK_SIZE / 2, 504 + BLOCK_SIZE / 2));
+	_lifes.insert(std::pair<int, int>(80  + BLOCK_SIZE / 2, 504 + BLOCK_SIZE / 2));
+
 	setCpuPositionIterator(_cpu_pos.begin());
 	setPacmanPositionIterator(_pacman_pos.begin());
 }
@@ -88,10 +92,14 @@ void Map::draw()
 {
 	std::multimap<int, int>::iterator borders_it;
 	std::multimap<int, int>::iterator targets_it;
+	std::multimap<int, int>::iterator lifes_it;
 
 	for (borders_it = _borders.begin(); borders_it != _borders.end(); borders_it++)
 		DrawRectangle(borders_it->first, borders_it->second, BLOCK_SIZE, BLOCK_SIZE, DARKBLUE);
 
 	for (targets_it = _targets.begin(); targets_it != _targets.end(); targets_it++)
 		DrawRectangle(targets_it->first, targets_it->second, TARGETS_SIZE, TARGETS_SIZE, WHITE);
+
+	for (lifes_it = _lifes.begin(); lifes_it != _lifes.end(); lifes_it++)
+		DrawCircle(lifes_it->first, lifes_it->second, OBJ_SIZE, YELLOW);
 }

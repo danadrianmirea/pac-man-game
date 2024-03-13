@@ -10,6 +10,7 @@ class Map
 {
 private:
 	Map();
+	std::multimap<int, int> _lifes;
 	std::multimap<int, int> _borders;
 	std::multimap<int, int> _targets;
 	std::multimap<int, int> _cpu_pos;
@@ -18,6 +19,7 @@ private:
 	std::map<int, int>::iterator _pacman_pos_it;
 	float _x = MAP_X_START;
 	float _y = MAP_Y_START;
+	int lifes = 3;
 
 public:
 	Map(std::string map_path);

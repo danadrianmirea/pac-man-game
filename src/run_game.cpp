@@ -1,6 +1,6 @@
 #include "main.hpp"
 
-void run_game(Map &map, Key &key, PacMan &pacman, Cpu &cpu1, Cpu &cpu2, Cpu &cpu3, Cpu &cpu4)
+bool run_game(Map &map, Key &key, PacMan &pacman, Cpu &cpu1, Cpu &cpu2, Cpu &cpu3, Cpu &cpu4)
 {
 	ClearBackground(BLACK);
 	map.draw();
@@ -20,5 +20,10 @@ void run_game(Map &map, Key &key, PacMan &pacman, Cpu &cpu1, Cpu &cpu2, Cpu &cpu
 	cpu3.draw();
 	cpu4.draw();
 
-	DrawText(TextFormat("SCORE: %i", pacman.getScore()), 24, 24, 20, WHITE);
+	DrawText(TextFormat("SCORE %i", pacman.getScore()), 24, 24, 20, WHITE);
+
+	if (map.getTargets().size() == 0)
+		return false;
+	
+	return true;
 }
