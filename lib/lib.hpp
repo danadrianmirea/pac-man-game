@@ -3,11 +3,15 @@
 #include "raylib.hpp"
 #include "raymath.hpp"
 #include "rlgl.hpp"
+#include <stdio.h>
 
-#define PACMAN_SIZE		10
-#define PACMAN_SPEED	3
-#define CPU_SPEED		3
-#define BLOCK_SIZE		25
-#define MAP_X_START		25.0f
-#define MAP_Y_START		75.0f
-#define TARGET_SIZE		2
+#define HERE printf("I am here!\n")
+#define HERE2 printf("I am here to!\n")
+
+#define OBJ_SIZE		10
+#define PACMAN_SPEED	2
+#define CPU_SPEED		2
+#define BLOCK_SIZE		24
+#define MAP_X_START		0.0f
+#define MAP_Y_START		72.0f
+#define TARGETS_SIZE	3

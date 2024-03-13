@@ -10,6 +10,6 @@
 #include "./PacMan/PacMan.hpp"
 #include "./PacMan/Cpu.hpp"
 #include "./Map/Map.hpp"
-#include"./Key/Key.hpp"
+#include "./Key/Key.hpp"
 
-void run_game(Map &map, Key &key, PacMan &pacman, Cpu &cpu1, Cpu &cpu2, Cpu &cpu3);
+void run_game(Map &map, Key &key, PacMan &pacman, Cpu &cpu1, Cpu &cpu2, Cpu &cpu3, Cpu &cpu4);

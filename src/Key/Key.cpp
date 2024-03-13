@@ -2,7 +2,7 @@
 
 void Key::setCurrentKey(int key)
 {
-	this->_current_key= key;
+	this->_current_key = key;
 }
 
 void Key::setKeyPressed(int key)

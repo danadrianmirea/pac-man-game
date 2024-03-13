@@ -6,24 +6,31 @@
 #include <iostream>
 #include <map>
 
+class Map;
+
 class PacMan
 {
 private:
-	PacMan();
-	int _target_points = 0;
+	int _score = 0;
 
 public:
 	float x;
 	float y;
-	float radius = PACMAN_SIZE;
+	float radius = OBJ_SIZE;
 	int speed = PACMAN_SPEED;
 	Color color;
 
-	PacMan(float x, float y, int speed, Color color);
+	PacMan(Color color);
 
-	void setTargetPoints(int target);
-	int getTargetPoints() const;
+	void setScore(int score);
+	void increaseScore(int value);
+	int getScore() const;
+
 	void draw();
+	void updatePosition(const Map &map);
+	void checkScore(Map& map);
 	void update(const Map &map, Key &key);
-	bool checkBorderCollision(const Map &map, float x, float y) const;
+	bool checkBorderCollision(const Map &map, float x, float y);
+	void movePrimaryKey(const Map &map, Key &key, int key_pressed);
+	bool moveSecondaryKey(const Map &map, Key &key, int primary_key);
 };
