@@ -4,10 +4,50 @@ void Cpu::draw()
 {
 	DrawCircle(x, y, radius, color);
 	DrawRectangle(x - radius, y, radius * 2, radius, color);
-	DrawEllipse(x - 4, y - 2, 3, 4, WHITE);
-	DrawEllipse(x + 4, y - 2, 3, 4, WHITE);
-	DrawCircle(x - 4, y - eyes, 1.75, BLACK);
-	DrawCircle(x + 4, y - eyes, 1.75, BLACK);
+
+	DrawPixel(x - radius + 1, y + radius - 1, BLACK);
+	DrawPixel(x - radius + 2, y + radius - 1, BLACK);
+	DrawPixel(x - radius + 3, y + radius - 1, BLACK);
+	DrawPixel(x - radius + 2, y + radius - 2, BLACK);
+
+	DrawPixel(x - radius + 6, y + radius - 1, BLACK);
+	DrawPixel(x - radius + 7, y + radius - 1, BLACK);
+	DrawPixel(x - radius + 8, y + radius - 1, BLACK);
+	DrawPixel(x - radius + 7, y + radius - 2, BLACK);
+
+	DrawPixel(x - radius + 11, y + radius - 1, BLACK);
+	DrawPixel(x - radius + 12, y + radius - 1, BLACK);
+	DrawPixel(x - radius + 13, y + radius - 1, BLACK);
+	DrawPixel(x - radius + 12, y + radius - 2, BLACK);
+
+	DrawPixel(x - radius + 16, y + radius - 1, BLACK);
+	DrawPixel(x - radius + 17, y + radius - 1, BLACK);
+	DrawPixel(x - radius + 18, y + radius - 1, BLACK);
+	DrawPixel(x - radius + 17, y + radius - 2, BLACK);
+
+	DrawEllipse(x - 4, y - 2, 3.5, 4, WHITE);
+	DrawEllipse(x + 4, y - 2, 3.5, 4, WHITE);
+
+	if (current_direction == KEY_UP)
+	{
+		DrawCircle(x - 4, y - 4, 1.75, BLACK);
+		DrawCircle(x + 4, y - 4, 1.75, BLACK);
+	}
+	else if (current_direction == KEY_DOWN)
+	{
+		DrawCircle(x - 4, y - 0, 1.75, BLACK);
+		DrawCircle(x + 4, y - 0, 1.75, BLACK);
+	}
+	else if (current_direction == KEY_LEFT)
+	{
+		DrawCircle(x - 6, y - 2, 1.75, BLACK);
+		DrawCircle(x + 2, y - 2, 1.75, BLACK);
+	}
+	else if (current_direction == KEY_RIGHT)
+	{
+		DrawCircle(x - 2, y - 2, 1.75, BLACK);
+		DrawCircle(x + 6, y - 2, 1.75, BLACK);
+	}
 }
 
 void Cpu::updatePosition(const Map &map)

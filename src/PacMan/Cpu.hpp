@@ -9,8 +9,6 @@ class Cpu : public PacMan
 {
 public:
 	float speed = CPU_SPEED;
-	float eyes_position[3] = {0, 2, 4};
-	float eyes = eyes_position[GetRandomValue(0, 2)];
 	int directions[5] = {KEY_UP, KEY_UP, KEY_UP, KEY_LEFT, KEY_RIGHT};
 	int current_direction = KEY_UP;
 
