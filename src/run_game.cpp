@@ -7,10 +7,10 @@ bool run_game(Map &map, Key &key, PacMan &pacman, Cpu &cpu1, Cpu &cpu2, Cpu &cpu
 	key.update();
 
 	pacman.update(map, key);
-	cpu1.update(map, pacman.x, pacman.y);
-	cpu2.update(map, pacman.x, pacman.y);
-	cpu3.update(map, pacman.x, pacman.y);
-	cpu4.update(map, pacman.x, pacman.y);
+	cpu1.random(map);
+	cpu2.random(map);
+	cpu3.random(map);
+	cpu4.random(map);
 
 	pacman.checkScore(map);
 	

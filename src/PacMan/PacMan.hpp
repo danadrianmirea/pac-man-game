@@ -30,7 +30,7 @@ public:
 	void updatePosition(const Map &map);
 	void checkScore(Map& map);
 	void update(const Map &map, Key &key);
-	bool checkBorderCollision(const Map &map, float x, float y);
-	void movePrimaryKey(const Map &map, Key &key, int key_pressed);
-	bool moveSecondaryKey(const Map &map, Key &key, int primary_key);
+	bool checkBorderCollision(const Map &map, float dx, float dy);
+	void movePrimaryKey(const Map &map, Key &key);
+	bool moveSecondaryKey(const Map &map, Key &key);
 };

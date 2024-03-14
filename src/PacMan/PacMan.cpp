@@ -27,7 +27,7 @@ void PacMan::draw()
 
 void PacMan::updatePosition(const Map &map)
 {
-	Map& non_const_map = const_cast<Map&>(map);
+	Map &non_const_map = const_cast<Map &>(map);
 	std::map<int, int>::iterator pacman_it = non_const_map.getPacmanPosition();
 
 	this->x = pacman_it->first;
@@ -36,7 +36,7 @@ void PacMan::updatePosition(const Map &map)
 
 void PacMan::checkScore(Map &map)
 {
-	std::multimap<int, int>& targets = map.getTargets();
+	std::multimap<int, int> &targets = map.getTargets();
 	std::multimap<int, int>::iterator it = targets.begin();
 	Rectangle pacman = {this->x - BLOCK_SIZE / 2, this->y - BLOCK_SIZE / 2, BLOCK_SIZE, BLOCK_SIZE};
 
@@ -54,33 +54,15 @@ void PacMan::checkScore(Map &map)
 
 void PacMan::update(const Map &map, Key &key)
 {
-	if (key.getCurrentKey() == KEY_UP)
-	{
-		if (!moveSecondaryKey(map, key, KEY_UP))
-			movePrimaryKey(map, key, KEY_UP);
-	}
-	else if (key.getCurrentKey() == KEY_DOWN)
-	{
-		if (!moveSecondaryKey(map, key, KEY_DOWN))
-			movePrimaryKey(map, key, KEY_DOWN);
-	}
-	else if (key.getCurrentKey() == KEY_LEFT)
-	{
-		if (!moveSecondaryKey(map, key, KEY_LEFT))
-			movePrimaryKey(map, key, KEY_LEFT);
-	}
-	else if (key.getCurrentKey() == KEY_RIGHT)
-	{
-		if (!moveSecondaryKey(map, key, KEY_RIGHT))
-			movePrimaryKey(map, key, KEY_RIGHT);
-	}
+	if (!moveSecondaryKey(map, key))
+		movePrimaryKey(map, key);
 }
 
-bool PacMan::checkBorderCollision(const Map &map, float x, float y)
+bool PacMan::checkBorderCollision(const Map &map, float dx, float dy)
 {
 	auto borders = map.getBorders();
 	std::multimap<int, int>::const_iterator it = borders.begin();
-	Rectangle pacman = {x - BLOCK_SIZE / 2, y - BLOCK_SIZE / 2, BLOCK_SIZE, BLOCK_SIZE};
+	Rectangle pacman = {x + dx - BLOCK_SIZE / 2, y + dy - BLOCK_SIZE / 2, BLOCK_SIZE, BLOCK_SIZE};
 
 	for (; it != borders.end(); it++)
 	{
@@ -91,100 +73,71 @@ bool PacMan::checkBorderCollision(const Map &map, float x, float y)
 	return false;
 }
 
-void PacMan::movePrimaryKey(const Map &map, Key &key, int key_pressed)
+void PacMan::movePrimaryKey(const Map &map, Key &key)
 {
-	if (key_pressed == KEY_UP)
+	float dx = 0;
+	float dy = 0;
+
+	switch (key.getCurrentKey())
 	{
-		if (!checkBorderCollision(map, x, y - speed))
-			y -= speed;
-		else
-		{
-			key.setCurrentKey(0);
-			key.setQueueKey(0);
-		}
+		case KEY_UP:
+			dy = -speed;
+			break;
+		case KEY_DOWN:
+			dy = speed;
+			break;
+		case KEY_LEFT:
+			dx = -speed;
+			break;
+		case KEY_RIGHT:
+			dx = speed;
+			break;
 	}
-	else if (key_pressed == KEY_DOWN)
+
+	if (!checkBorderCollision(map, dx, dy))
 	{
-		if (!checkBorderCollision(map, x, y + speed))
-			y += speed;
-		else
-		{
-			key.setCurrentKey(0);
-			key.setQueueKey(0);
-		}
+		x += dx;
+		y += dy;
 	}
-	else if (key_pressed == KEY_LEFT)
+	else
 	{
-		if (!checkBorderCollision(map, x - speed, y))
-			x -= speed;
-		else
-		{
-			key.setCurrentKey(0);
-			key.setQueueKey(0);
-		}
-	}
-	else if (key_pressed == KEY_RIGHT)
-	{
-		if (!checkBorderCollision(map, x + speed, y))
-			x += speed;
-		else
-		{
-			key.setCurrentKey(0);
-			key.setQueueKey(0);
-		}
+		key.setCurrentKey(0);
+		key.setQueueKey(0);
 	}
 }
 
-bool PacMan::moveSecondaryKey(const Map &map, Key &key, int primary_key)
+bool PacMan::moveSecondaryKey(const Map &map, Key &key)
 {
-	bool result = true;
+	if (key.getQueueKey() == key.getCurrentKey() || key.getQueueKey() == 0)
+		return false;
 
-	if (key.getQueueKey() == KEY_UP && key.getQueueKey() != primary_key)
-	{
-		if (!checkBorderCollision(map, x, y - speed))
-		{
-			y -= speed;
-			key.setCurrentKey(KEY_UP);
-			key.setQueueKey(0);
-		}
-		else
-			movePrimaryKey(map, key, primary_key);
-	}
-	else if (key.getQueueKey() == KEY_DOWN && key.getQueueKey() != primary_key)
-	{
-		if (!checkBorderCollision(map, x, y + speed))
-		{
-			y += speed;
-			key.setCurrentKey(KEY_DOWN);
-			key.setQueueKey(0);
-		}
-		else
-			movePrimaryKey(map, key, primary_key);
-	}
-	else if (key.getQueueKey() == KEY_RIGHT && key.getQueueKey() != primary_key)
-	{
-		if (!checkBorderCollision(map, x + speed, y))
-		{
-			x += speed;
-			key.setCurrentKey(KEY_RIGHT);
-			key.setQueueKey(0);
-		}
-		else
-			movePrimaryKey(map, key, primary_key);
-	}
-	else if (key.getQueueKey() == KEY_LEFT && key.getQueueKey() != primary_key)
-	{
-		if (!checkBorderCollision(map, x - speed, y))
-		{
-			x -= speed;
-			key.setCurrentKey(KEY_LEFT);
-			key.setQueueKey(0);
-		}
-		else
-			movePrimaryKey(map, key, primary_key);
-	}
-	else
-		result = false;
+	float dx = 0;
+	float dy = 0;
 
-	return result;
+	switch (key.getQueueKey())
+	{
+		case KEY_UP:
+			dy = -speed;
+			break;
+		case KEY_DOWN:
+			dy = speed;
+			break;
+		case KEY_LEFT:
+			dx = -speed;
+			break;
+		case KEY_RIGHT:
+			dx = speed;
+			break;
+	}
+
+	if (!checkBorderCollision(map, dx, dy))
+	{
+		x += dx;
+		y += dy;
+		key.setCurrentKey(key.getQueueKey());
+		key.setQueueKey(0);
+		return true;
+	}
+
+	return false;
 }
