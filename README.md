@@ -23,8 +23,7 @@ git clone https://github.com/maricard18/pac-man-game.git
 ```
 
 ## About
-All the graphical components in this game were created using functions from the raylib library; no images or textures were utilized. <br>
-The CPU movement pattern was implemented using a self-made random algorithm system. The primary movement is always upwards unless it encounters a dead end. <br> When passing through an intersection or facing a possible new direction, it has a 60% chance of continuing forward and a 40% chance of turning left or right.
+All the graphical components in this game were created using functions from the raylib library, no images or textures were utilized. <br> The CPU movement pattern was implemented using a self-made random algorithm system. <br> The primary movement is always upwards unless it encounters a dead end. <br> When passing through an intersection or facing a possible new direction, it has a 60% chance of continuing forward and a 40% chance of turning left or right.
 
 ## Contributing
 
