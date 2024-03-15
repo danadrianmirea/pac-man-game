@@ -10,10 +10,10 @@ int main(void)
 	SetTargetFPS(60);
 
 	PacMan pacman(YELLOW);
-	Cpu cpu1(BLUE, 3);
+	Cpu cpu1(BLUE, 2);
 	Cpu cpu2(RED, 0);
-	Cpu cpu3(PINK, 7);
-	Cpu cpu4(ORANGE, 10);
+	Cpu cpu3(PINK, 4);
+	Cpu cpu4(ORANGE, 6);
 
 	Key key;
 	Map map("./maps/map.txt");
