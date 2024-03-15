@@ -29,9 +29,29 @@ void PacMan::setDefaultPosition(Map &map)
 	this->pacman_position = map.getPacmanPosition();
 }
 
-void PacMan::draw()
+void PacMan::draw(const Key &key)
 {
 	DrawCircle(x, y, radius, color);
+	drawMouth(key);
+}
+
+void PacMan::drawMouth(const Key &key)
+{
+	switch (key.getCurrentKey())
+	{
+		case KEY_UP:
+			DrawUpMouth(this->x, this->y);
+			break;
+		case KEY_DOWN:
+			DrawDownMouth(this->x, this->y);
+			break;
+		case KEY_LEFT:
+			DrawLeftMouth(this->x, this->y);
+			break;
+		case KEY_RIGHT:
+			DrawRightMouth(this->x, this->y);
+			break;
+	}
 }
 
 void PacMan::updateStartPosition(Map &map)
@@ -52,6 +72,7 @@ void PacMan::checkScore(Map &map)
 		{
 			it = targets.erase(it);
 			increaseScore(10);
+			PlaySound(map.eating);
 		}
 		else
 			it++;
@@ -60,7 +81,10 @@ void PacMan::checkScore(Map &map)
 	DrawText(TextFormat("SCORE %i", getScore()), 24, 24, 20, WHITE);
 
 	if (map.getTargets().size() == 0)
+	{
 		map.startGameWonTimer();
+		PlaySound(map.game_won);
+	}
 }
 
 void PacMan::update(const Map &map, Key &key)

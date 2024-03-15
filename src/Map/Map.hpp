@@ -9,7 +9,6 @@
 class Map
 {
 private:
-	Map();
 	std::multimap<int, int> _lifes;
 	std::multimap<int, int> _borders;
 	std::multimap<int, int> _targets;
@@ -22,11 +21,17 @@ private:
 	int lifes = 3;
 
 public:
+	~Map();
 	Map(std::string map_path);
 	Timer map_init_timer;
 	Timer pacman_dead_timer;
 	Timer game_over_timer;
 	Timer game_won_timer;
+	Sound intro;
+	Sound eating;
+	Sound death;
+	Sound game_over;
+	Sound game_won;
 	bool game_pause = false;
 
 	std::multimap<int, int> getBorders() const;

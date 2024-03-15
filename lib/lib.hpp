@@ -24,3 +24,8 @@ typedef struct Timer {
 void StartTimer(Timer &timer, double lifetime);
 bool TimerDone(Timer timer);
 double GetElapsed(Timer timer);
+
+void DrawUpMouth(int x, int y);
+void DrawDownMouth(int x, int y);
+void DrawLeftMouth(int x, int y);
+void DrawRightMouth(int x, int y);

@@ -6,7 +6,7 @@ int RunGame(Map &map, Key &key, PacMan &pacman, Cpu &cpu1, Cpu &cpu2, Cpu &cpu3,
 	map.draw();
 	key.update();
 
-	int game_status = GameStatus(map, pacman, cpu1, cpu2, cpu3, cpu4);
+	int game_status = GameStatus(map, key, pacman, cpu1, cpu2, cpu3, cpu4);
 	if (game_status == 0 || game_status == -1)
 		return game_status;
 
@@ -23,16 +23,16 @@ int RunGame(Map &map, Key &key, PacMan &pacman, Cpu &cpu1, Cpu &cpu2, Cpu &cpu3,
 	cpu3.checkCollisionPacmanCpu(map, pacman);
 	cpu4.checkCollisionPacmanCpu(map, pacman);
 
-	DrawPlayers(pacman, cpu1, cpu2, cpu3, cpu4);
+	DrawPlayers(pacman, key, cpu1, cpu2, cpu3, cpu4);
 
 	return 1;
 }
 
-int GameStatus(Map &map, PacMan &pacman, Cpu &cpu1, Cpu &cpu2, Cpu &cpu3, Cpu &cpu4)
+int GameStatus(Map &map, const Key &key, PacMan &pacman, Cpu &cpu1, Cpu &cpu2, Cpu &cpu3, Cpu &cpu4)
 {
 	if (!TimerDone(map.map_init_timer))
 	{
-		DrawPlayers(pacman, cpu1, cpu2, cpu3, cpu4);
+		DrawPlayers(pacman, key, cpu1, cpu2, cpu3, cpu4);
 		DrawText("READY?", 235, 315, 20, YELLOW);
 		return 0;
 	}
@@ -47,7 +47,7 @@ int GameStatus(Map &map, PacMan &pacman, Cpu &cpu1, Cpu &cpu2, Cpu &cpu3, Cpu &c
 	{
 		if (!TimerDone(map.pacman_dead_timer))
 		{
-			UpdatePlayerPositions(map, pacman, cpu1, cpu2, cpu3, cpu4);
+			UpdatePlayerPositions(map, key, pacman, cpu1, cpu2, cpu3, cpu4);
 			DrawText("READY?", 235, 315, 20, YELLOW);
 			return 0;
 		}
@@ -63,7 +63,7 @@ int GameStatus(Map &map, PacMan &pacman, Cpu &cpu1, Cpu &cpu2, Cpu &cpu3, Cpu &c
 	{
 		if (!TimerDone(map.game_won_timer))
 		{
-			DrawPlayers(pacman, cpu1, cpu2, cpu3, cpu4);
+			DrawPlayers(pacman, key, cpu1, cpu2, cpu3, cpu4);
 			DrawText("GAME WON", 222, 315, 20, YELLOW);
 			return 0;
 		}
@@ -75,7 +75,7 @@ int GameStatus(Map &map, PacMan &pacman, Cpu &cpu1, Cpu &cpu2, Cpu &cpu3, Cpu &c
 	{
 		if (!TimerDone(map.game_over_timer))
 		{
-			DrawPlayers(pacman, cpu1, cpu2, cpu3, cpu4);
+			DrawPlayers(pacman, key, cpu1, cpu2, cpu3, cpu4);
 			DrawText("GAME OVER", 215, 315, 20, RED);
 			return 0;
 		}

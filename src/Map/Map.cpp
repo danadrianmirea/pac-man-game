@@ -1,5 +1,14 @@
 #include "Map.hpp"
 
+Map::~Map()
+{
+	UnloadSound(this->intro);
+	UnloadSound(this->eating);
+	UnloadSound(this->death);
+	UnloadSound(this->game_over);
+	UnloadSound(this->game_won);
+}
+
 Map::Map(std::string map_path)
 {
 	std::fstream file;
@@ -39,6 +48,12 @@ Map::Map(std::string map_path)
 
 	_pacman_pos_it =  _pacman_pos.begin();
 	_cpu_pos_it = _cpu_pos.begin();
+
+	this->intro = LoadSound("./sounds/intro.wav");
+	this->eating = LoadSound("./sounds/eating.wav");
+	this->death = LoadSound("./sounds/death.wav");
+	this->game_over = LoadSound("./sounds/game_over.mp3");
+	this->game_won = LoadSound("./sounds/game_won.mp3");
 }
 
 std::multimap<int, int> Map::getBorders() const
@@ -126,7 +141,10 @@ void Map::draw()
 		DrawRectangle(targets_it->first, targets_it->second, TARGETS_SIZE, TARGETS_SIZE, WHITE);
 
 	for (lifes_it = _lifes.begin(); lifes_it != _lifes.end(); lifes_it++)
+	{
 		DrawCircle(lifes_it->first, lifes_it->second, OBJ_SIZE, YELLOW);
+		DrawLeftMouth(lifes_it->first, lifes_it->second);
+	}
 }
 
 void Map::decreaseLifes()
@@ -136,7 +154,7 @@ void Map::decreaseLifes()
 
 void Map::startPacmanDeadTimer()
 {
-	StartTimer(this->pacman_dead_timer, 5);
+	StartTimer(this->pacman_dead_timer, 4);
 }
 
 void Map::startGameOverTimer()

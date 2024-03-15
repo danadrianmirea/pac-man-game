@@ -13,10 +13,9 @@
 #include "./Key/Key.hpp"
 
 int RunGame(Map &map, Key &key, PacMan &pacman, Cpu &cpu1, Cpu &cpu2, Cpu &cpu3, Cpu &cpu4);
-
-int GameStatus(Map &map, PacMan &pacman, Cpu &cpu1, Cpu &cpu2, Cpu &cpu3, Cpu &cpu4);
-
-void UpdatePlayerPositions(Map &map, PacMan &pacman, Cpu &cpu1, Cpu &cpu2, Cpu &cpu3, Cpu &cpu4);
+int GameStatus(Map &map, const Key &key, PacMan &pacman, Cpu &cpu1, Cpu &cpu2, Cpu &cpu3, Cpu &cpu4);
+void UpdatePlayerPositions(Map &map, const Key &key, PacMan &pacman, Cpu &cpu1, Cpu &cpu2, Cpu &cpu3, Cpu &cpu4);
 void StartCpuTimers(Cpu &cpu1, Cpu &cpu2, Cpu &cpu3, Cpu &cpu4);
-void DrawPlayers(PacMan &pacman, Cpu &cpu1, Cpu &cpu2, Cpu &cpu3, Cpu &cpu4);
+void DrawPlayers(PacMan &pacman, const Key &key, Cpu &cpu1, Cpu &cpu2, Cpu &cpu3, Cpu &cpu4);
 void SetDefaultPositions(Map &map, PacMan &pacman, Cpu &cpu1, Cpu &cpu2, Cpu &cpu3, Cpu &cpu4);
+

@@ -1,9 +1,5 @@
 #include "Cpu.hpp"
 
-Cpu::Cpu()
-{
-}
-
 Cpu::Cpu(Color color, int timer)
 {
 	this->color = color;
@@ -187,11 +183,15 @@ void Cpu::checkCollisionPacmanCpu(Map &map, PacMan &pacman)
 		map.decreaseLifes();
 
 		if (map.getLifes().size() == 0)
+		{
 			map.startGameOverTimer();
+			PlaySound(map.game_over);
+		}
 		else
 		{
 			map.startPacmanDeadTimer();
 			map.game_pause = true;
+			PlaySound(map.death);
 		}
 	}
 }

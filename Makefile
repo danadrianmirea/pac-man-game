@@ -5,7 +5,7 @@ EXEC = pac-man
 SRC =	src/main.cpp \
 		src/game.cpp \
 		src/utils.cpp \
-		src/time.cpp \
+		src/pixels.cpp \
 		src/Map/Map.cpp \
 		src/Key/Key.cpp \
 		src/PacMan/PacMan.cpp \

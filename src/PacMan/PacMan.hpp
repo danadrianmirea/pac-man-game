@@ -20,6 +20,8 @@ public:
 	int speed = PACMAN_SPEED;
 	Color color;
 	std::map<int, int>::iterator pacman_position;
+	Sound eating;
+	Sound death;
 
 	PacMan();
 	PacMan(Color color);
@@ -29,7 +31,8 @@ public:
 	int getScore() const;
 	void setDefaultPosition(Map &map);
 
-	void draw();
+	void draw(const Key &key);
+	void drawMouth(const Key &key);
 	void updateStartPosition(Map &map);
 	void checkScore(Map& map);
 	void update(const Map &map, Key &key);
