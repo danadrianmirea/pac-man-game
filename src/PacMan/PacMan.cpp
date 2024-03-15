@@ -1,5 +1,9 @@
 #include "PacMan.hpp"
 
+PacMan::PacMan()
+{
+}
+
 PacMan::PacMan(Color color)
 {
 	this->color = color;
@@ -20,18 +24,20 @@ int PacMan::getScore() const
 	return _score;
 }
 
+void PacMan::setDefaultPosition(Map &map)
+{
+	this->pacman_position = map.getPacmanPosition();
+}
+
 void PacMan::draw()
 {
 	DrawCircle(x, y, radius, color);
 }
 
-void PacMan::updatePosition(const Map &map)
+void PacMan::updateStartPosition(Map &map)
 {
-	Map &non_const_map = const_cast<Map &>(map);
-	std::map<int, int>::iterator pacman_it = non_const_map.getPacmanPosition();
-
-	this->x = pacman_it->first;
-	this->y = pacman_it->second;
+	this->x = pacman_position->first;
+	this->y = pacman_position->second;
 }
 
 void PacMan::checkScore(Map &map)
@@ -50,6 +56,11 @@ void PacMan::checkScore(Map &map)
 		else
 			it++;
 	}
+
+	DrawText(TextFormat("SCORE %i", getScore()), 24, 24, 20, WHITE);
+
+	if (map.getTargets().size() == 0)
+		map.startGameWonTimer();
 }
 
 void PacMan::update(const Map &map, Key &key)

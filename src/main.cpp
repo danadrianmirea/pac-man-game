@@ -9,25 +9,23 @@ int main(void)
 	SetTargetFPS(60);
 
 	PacMan pacman(YELLOW);
-	Cpu cpu1(RED);
-	Cpu cpu2(BLUE);
-	Cpu cpu3(PINK);
-	Cpu cpu4(ORANGE);
+	Cpu cpu1(BLUE, 3);
+	Cpu cpu2(RED, 0);
+	Cpu cpu3(PINK, 7);
+	Cpu cpu4(ORANGE, 10);
 
 	Key key;
 	Map map("/Users/mariohenriques/Documents/42/personal_projects/pac-man-game/maps/map.txt");
 
-	pacman.updatePosition(map);
-	cpu1.updatePosition(map);
-	cpu2.updatePosition(map);
-	cpu3.updatePosition(map);
-	cpu4.updatePosition(map);
+	SetDefaultPositions(map, pacman, cpu1, cpu2, cpu3, cpu4);
+	UpdatePlayerPositions(map, pacman, cpu1, cpu2, cpu3, cpu4);
+	StartTimer(map.map_init_timer, 5);
 
 	while (!WindowShouldClose())
 	{
 		BeginDrawing();
 
-		if (!run_game(map, key, pacman, cpu1, cpu2, cpu3, cpu4))
+		if (RunGame(map, key, pacman, cpu1, cpu2, cpu3, cpu4) == -1)
 			break ;
 
 		EndDrawing();

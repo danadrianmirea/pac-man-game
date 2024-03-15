@@ -1,5 +1,15 @@
 #include "Cpu.hpp"
 
+Cpu::Cpu()
+{
+}
+
+Cpu::Cpu(Color color, int timer)
+{
+	this->color = color;
+	this->timer= timer;
+}
+
 void Cpu::draw()
 {
 	DrawCircle(x, y, radius, color);
@@ -50,29 +60,17 @@ void Cpu::draw()
 	}
 }
 
-void Cpu::updatePosition(const Map &map)
+void Cpu::updateStartPosition(Map &map)
 {
-	Map &non_const_map = const_cast<Map &>(map);
-	std::multimap<int, int>::const_iterator cpu_it = non_const_map.getCpuPosition();
-
-	this->x = cpu_it->first;
-	this->y = cpu_it->second;
-}
-
-void Cpu::update(const Map &map, int pacman_x, int pacman_y)
-{
-	if (y > pacman_y && !checkBorderCollision(map, 0, -speed))
-		this->y -= speed;
-	else if (y < pacman_y && !checkBorderCollision(map, 0, speed))
-		this->y += speed;
-	else if (x > pacman_x && !checkBorderCollision(map, -speed, 0))
-		this->x -= speed;
-	else if (x < pacman_x && !checkBorderCollision(map, speed, 0))
-		this->x += speed;
+	this->x = cpu_position->first;
+	this->y = cpu_position->second;
 }
 
 void Cpu::random(const Map &map)
 {
+	if (!TimerDone(this->cpu_timer))
+		return ;
+
 	int *options = testOtherDirections(map);
 
 	if (options != NULL)
@@ -174,4 +172,41 @@ void Cpu::oppositeDirection()
 		current_direction = KEY_RIGHT;
 	else if (current_direction == KEY_RIGHT)
 		current_direction = KEY_LEFT;
+}
+
+void Cpu::checkCollisionPacmanCpu(Map &map, PacMan &pacman)
+{
+	Rectangle pacman_rec = {pacman.x, pacman.y, OBJ_SIZE, OBJ_SIZE};
+	Rectangle cpu_rec = {this->x, this->y, OBJ_SIZE, OBJ_SIZE};
+
+	if (CheckCollisionRecs(pacman_rec, cpu_rec))
+	{
+		std::multimap<int, int> &lifes = map.getLifes();
+		std::multimap<int, int>::iterator it = map.getLastLifePos();
+		lifes.erase(it);
+		map.decreaseLifes();
+
+		if (map.getLifes().size() == 0)
+			map.startGameOverTimer();
+		else
+		{
+			map.startPacmanDeadTimer();
+			map.game_pause = true;
+		}
+	}
+}
+
+void Cpu::startTimer()
+{
+	StartTimer(this->cpu_timer, this->timer);
+}
+
+void Cpu::setTimer(int timer)
+{
+	this->timer = timer;
+}
+
+void Cpu::setDefaultPosition(Map &map)
+{
+	this->cpu_position = map.getCpuPosition();
 }

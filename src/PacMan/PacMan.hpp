@@ -19,15 +19,18 @@ public:
 	float radius = OBJ_SIZE;
 	int speed = PACMAN_SPEED;
 	Color color;
+	std::map<int, int>::iterator pacman_position;
 
+	PacMan();
 	PacMan(Color color);
 
 	void setScore(int score);
 	void increaseScore(int value);
 	int getScore() const;
+	void setDefaultPosition(Map &map);
 
 	void draw();
-	void updatePosition(const Map &map);
+	void updateStartPosition(Map &map);
 	void checkScore(Map& map);
 	void update(const Map &map, Key &key);
 	bool checkBorderCollision(const Map &map, float dx, float dy);

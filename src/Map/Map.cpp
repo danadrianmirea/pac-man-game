@@ -37,8 +37,8 @@ Map::Map(std::string map_path)
 	_lifes.insert(std::pair<int, int>(50  + BLOCK_SIZE / 2, 504 + BLOCK_SIZE / 2));
 	_lifes.insert(std::pair<int, int>(80  + BLOCK_SIZE / 2, 504 + BLOCK_SIZE / 2));
 
-	setCpuPositionIterator(_cpu_pos.begin());
-	setPacmanPositionIterator(_pacman_pos.begin());
+	_pacman_pos_it =  _pacman_pos.begin();
+	_cpu_pos_it = _cpu_pos.begin();
 }
 
 std::multimap<int, int> Map::getBorders() const
@@ -51,26 +51,56 @@ std::multimap<int, int>& Map::getTargets()
 	return _targets;
 }
 
+std::multimap<int, int> Map::getCpuList()
+{
+	return _cpu_pos;
+}
+
+std::map<int, int> Map::getPacmanList()
+{
+	return _pacman_pos;
+}
+
+std::multimap<int, int>& Map::getLifes()
+{
+	return _lifes;
+}
+
+std::multimap<int, int>::iterator Map::getLastLifePos()
+{
+	std::multimap<int, int>::iterator it = _lifes.begin();
+
+	for (; it != _lifes.end(); it++)
+	{
+		if (std::next(it) == _lifes.end())
+			return it;
+	}
+
+	return it;
+}
+
 std::map<int, int>::iterator Map::getPacmanPosition()
 {
-	if (_pacman_pos_it != _pacman_pos.end())
-        return _pacman_pos_it++;
-	else
-	{
-		_pacman_pos_it = _pacman_pos.begin();
-		return _pacman_pos_it++;
-	}
+    return _pacman_pos_it;
 }
 
 std::multimap<int, int>::iterator Map::getCpuPosition()
 {
+	std::multimap<int, int>::iterator current_it;
+
 	if (_cpu_pos_it != _cpu_pos.end())
-        return _cpu_pos_it++;
-	else
-	{
-		_cpu_pos_it = _cpu_pos.begin();
-		return _cpu_pos_it++;
-	}
+    {
+        current_it = _cpu_pos_it;
+        _cpu_pos_it++;
+    }
+    else
+    {
+        _cpu_pos_it = _cpu_pos.begin();
+        current_it = _cpu_pos_it;
+        _cpu_pos_it++;
+    }
+
+    return current_it;
 }
 
 Rectangle Map::getRec(float x, float y) const
@@ -78,14 +108,9 @@ Rectangle Map::getRec(float x, float y) const
 	return Rectangle{x, y, BLOCK_SIZE, BLOCK_SIZE};
 }
 
-void Map::setPacmanPositionIterator(std::map<int, int>::iterator pacman_it)
+int Map::getLifesNumber()
 {
-	this->_pacman_pos_it = pacman_it;
-}
-
-void Map::setCpuPositionIterator(std::multimap<int, int>::iterator cpu_it)
-{
-	this->_cpu_pos_it = cpu_it;
+	return lifes;
 }
 
 void Map::draw()
@@ -102,4 +127,24 @@ void Map::draw()
 
 	for (lifes_it = _lifes.begin(); lifes_it != _lifes.end(); lifes_it++)
 		DrawCircle(lifes_it->first, lifes_it->second, OBJ_SIZE, YELLOW);
+}
+
+void Map::decreaseLifes()
+{
+	this->lifes -= 1;
+}
+
+void Map::startPacmanDeadTimer()
+{
+	StartTimer(this->pacman_dead_timer, 5);
+}
+
+void Map::startGameOverTimer()
+{
+	StartTimer(this->game_over_timer, 5);
+}
+
+void Map::startGameWonTimer()
+{
+	StartTimer(this->game_won_timer, 5);
 }

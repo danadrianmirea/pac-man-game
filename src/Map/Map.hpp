@@ -23,13 +23,26 @@ private:
 
 public:
 	Map(std::string map_path);
+	Timer map_init_timer;
+	Timer pacman_dead_timer;
+	Timer game_over_timer;
+	Timer game_won_timer;
+	bool game_pause = false;
 
 	std::multimap<int, int> getBorders() const;
 	std::multimap<int, int>& getTargets();
+	std::multimap<int, int> getCpuList();
+	std::map<int, int> getPacmanList();
 	std::map<int, int>::iterator getPacmanPosition();
 	std::multimap<int, int>::iterator getCpuPosition();
-	void setPacmanPositionIterator(std::map<int, int>::iterator pacman_it);
-	void setCpuPositionIterator(std::multimap<int, int>::iterator cpu_it);
+	std::multimap<int, int>& getLifes();
+	std::multimap<int, int>::iterator getLastLifePos();
 	Rectangle getRec(float x, float y) const;
+	int getLifesNumber();
+	
 	void draw();
+	void decreaseLifes();
+	void startPacmanDeadTimer();
+	void startGameOverTimer();
+	void startGameWonTimer();
 };
