@@ -14,16 +14,16 @@ SRC =	src/main.cpp \
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
 	LDFLAGS = -lm -lpthread -ldl -lrt -lX11
+	LIBS = lib/libraylib_linux.a
 else ifeq ($(UNAME_S),Darwin)
 	LDFLAGS = -framework CoreVideo -framework IOKit -framework Cocoa -framework GLUT -framework OpenGL
+	LIBS = lib/libraylib_macos.a
 endif
-
-LIBS = lib/libraylib.a
 
 all: $(EXEC)
 
 $(EXEC): $(SRC)
-	$(CXX) $(CXXFLAGS) $(SRC) -o $(EXEC) $(LDFLAGS) $(LIBS)
+	$(CXX) $(CXXFLAGS) $(SRC) $(LIBS) -o $(EXEC) $(LDFLAGS)
 
 clean:
 	rm -f $(EXEC)
