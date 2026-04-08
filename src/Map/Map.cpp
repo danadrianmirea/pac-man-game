@@ -1,4 +1,5 @@
 #include "Map.hpp"
+#include <string>
 
 Map::~Map()
 {
@@ -19,7 +20,7 @@ Map::Map(std::string map_path)
 	file.open(map_path);
 	if (file.is_open())
 	{
-		while (getline(file, line))
+		while (std::getline(file, line))
 		{
 			for (int i = 0; i < line.length(); i++)
 			{

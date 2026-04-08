@@ -2,6 +2,8 @@
 *.d
 
 build/
+CMakeFiles/
+CMakeCache.txt
 
 # Compiled Object files
 *.slo

@@ -52,18 +52,36 @@ elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     # Windows-specific settings
-    message(STATUS "Windows build detected - raylib library not provided")
-    message(STATUS "For Windows build, you need to:")
-    message(STATUS "1. Download raylib for Windows from https://www.raylib.com/")
-    message(STATUS "2. Link with raylib.lib instead of static library")
-    message(STATUS "3. Fix POSIX headers in source code (unistd.h, getline)")
-    # Try to find raylib if installed
-    find_package(raylib QUIET)
-    if(raylib_FOUND)
-        target_link_libraries(pac-man raylib)
-    else()
-        message(WARNING "raylib not found, build will likely fail")
+    message(STATUS "Windows build detected - using raylib from C:\\raylib\\raylib\\src")
+    
+    # Set raylib include directory
+    set(RAYLIB_INCLUDE_DIR "C:/raylib/raylib/src")
+    include_directories(${RAYLIB_INCLUDE_DIR})
+    
+    # Set raylib library path
+    set(RAYLIB_LIB "C:/raylib/raylib/src/libraylib.a")
+    
+    # Check if raylib files exist
+    if(NOT EXISTS ${RAYLIB_INCLUDE_DIR}/raylib.h)
+        message(WARNING "raylib.h not found at ${RAYLIB_INCLUDE_DIR}/raylib.h")
     endif()
+    if(NOT EXISTS ${RAYLIB_LIB})
+        message(WARNING "libraylib.a not found at ${RAYLIB_LIB}")
+    endif()
+    
+    # Check compiler compatibility
+    if(MSVC)
+        message(WARNING "MSVC compiler detected, but libraylib.a is built with MinGW.")
+        message(WARNING "This will cause linking errors. Solutions:")
+        message(WARNING "1. Install MinGW and use it as compiler (e.g., cmake -G \"MinGW Makefiles\" ...)")
+        message(WARNING "2. Build raylib with MSVC and update the library path.")
+    endif()
+    
+    # Link with raylib and required Windows libraries
+    target_link_libraries(pac-man ${RAYLIB_LIB})
+    target_link_libraries(pac-man opengl32 gdi32 winmm)
+    
+    # Note: Source code POSIX issues have been fixed (unistd.h removed, getline qualified)
 endif()
 
 # Copy assets to build directory (optional)
